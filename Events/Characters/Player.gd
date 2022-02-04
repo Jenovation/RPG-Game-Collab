@@ -100,9 +100,12 @@ func move():
 func interact_state():
 	# grabs all the bodies that are inside the PlayerDetection area
 	var bodies = $PlayerDetection.get_overlapping_bodies()
-	if bodies.size() != 0:
+	if bodies.size() != 0 and bodies.size() < 2: # only runs when there are only one body
 		print("Player detects a body!")
 		print(bodies)
+		if bodies[0] is NPC:
+			pass
+		
 	
 func roll_animation_finished():
 	state = MOVE

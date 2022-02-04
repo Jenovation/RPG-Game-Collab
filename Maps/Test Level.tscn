@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://Events/Plants/GreenCrystal.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Events/Characters/Player.tscn" type="PackedScene" id=2]
@@ -9,8 +9,7 @@
 [ext_resource path="res://Sprites/Rain Puddle.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/Smoke Particle.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Fog Particle.png" type="Texture" id=9]
-[ext_resource path="res://Events/Characters/NPC 1.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Events/Characters/NPC 2.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Events/Characters/NPCBase.tscn" type="PackedScene" id=10]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
@@ -284,8 +283,8 @@ position = Vector2( 297, 78 )
 [node name="NPC 1" parent="YSort Sprites" instance=ExtResource( 10 )]
 position = Vector2( 95, 285 )
 
-[node name="NPC 2" parent="YSort Sprites" instance=ExtResource( 11 )]
-position = Vector2( 534, 247 )
+[node name="NPC 2" parent="YSort Sprites" instance=ExtResource( 10 )]
+position = Vector2( 446, 227 )
 
 [node name="Green Crystal" parent="YSort Sprites" instance=ExtResource( 1 )]
 position = Vector2( 1206, 670 )
