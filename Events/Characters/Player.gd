@@ -1,20 +1,32 @@
 extends KinematicBody2D
 
-# Variables (Player Movement)
-
+# VARIABLES (Player Movement)
 var PLAYER1_VELOCITY = Vector2.ZERO
 var PLAYER1_ACCELERATION = 1500
-var PLAYER1_MAX_SPEED = 150
-var PLAYER1_ROLL_SPEED = 250
-var PLAYER1_ATTACK_SPEED = 20
-var PLAYER1_SLOWDOWN = 1200
-
-# PLAYER1_ACCELERATION = 1500    PLAYER1_MAX_SPEED = 200    PLAYER1_SLOWDOWN = 2000
+var PLAYER1_MAX_SPEED = 125
+var PLAYER1_SPRINT_SPEED = 220
+var PLAYER1_ROLL_SPEED = 180
+var PLAYER1_SPRINT_ROLL_SPEED = 255
+var PLAYER1_JUMP_FORCE = 180
+var PLAYER1_SPRINT_JUMP_FORCE = 275
+var PLAYER1_GRAVITY = 0
+var PLAYER1_ATTACK_SPEED = 100
+var PLAYER1_SPRINT_ATTACK_SPEED = 180
+var PLAYER1_SLOWDOWN = 1000
+var PLAYER1_SPRINT_SLOWDOWN = 300
+# PLAYER1_ACCELERATION = 1500    PLAYER1_MAX_SPEED = 100-200    PLAYER1_SLOWDOWN = 1500-2000 Range     PLAYER1_RUN_SLOWDOWN 300-500 Range
 
 enum {
 	MOVE,
 	ROLL,
-	ATTACK
+	SPRINT_ROLL,
+	ATTACK,
+	SPRINT_ATTACK,
+	JUMP,
+	SPRINT_JUMP,
+	SPRINT,
+	SLIDE
+
 }
 
 var state = MOVE
@@ -25,8 +37,7 @@ onready var PLAYER1_ANIMATION_TREE = $AnimationTree
 onready var PLAYER1_ANIMATION_STATE = PLAYER1_ANIMATION_TREE.get("parameters/playback")
 
 
-#Functions
-
+#FUNCTIONS
 func _ready():
 	PLAYER1_ANIMATION_TREE.active = true
 
@@ -38,78 +49,264 @@ func _process(delta):
 		ROLL:
 			roll_state(delta)
 		
+		SPRINT_ROLL:
+			sprint_roll_state(delta)
+		
 		ATTACK:
 			attack_state(delta)
+		
+		SPRINT_ATTACK:
+			sprint_attack_state(delta)
+		
+		JUMP:
+			jump_state(delta)
+		
+		SPRINT_JUMP:
+			sprint_jump_state(delta)
+		
+		SPRINT:
+			sprint_state(delta)
+		
+		SLIDE:
+			slide_state(delta)
 	
 	
-	#check if the Player is pressing directional keys
-
-# only gets called when this node receives an unhandle input events.
-func _unhandled_input(event):
-	# if the player clicks RMB means interact_state() is called
-	if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_RIGHT:
-		interact_state()
-
-
+	#set gravity (no functionality yet)
+	PLAYER1_VELOCITY.y += PLAYER1_GRAVITY * delta
+	
+	
+	# some main function for moving the player
+func move():
+	PLAYER1_VELOCITY = move_and_slide(PLAYER1_VELOCITY)
+	
+	
+# MOVING
 func move_state(delta):
+	
+	# controlling the direction of movement, delete this part to make animation not controllable and in a singular direction
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
+	
+	#check if Player is moving or not moving
+	if input_vector != Vector2.ZERO:
+		ACTION_VECTOR = input_vector
+		PLAYER1_ANIMATION_TREE.set("parameters/Idle/blend_position", input_vector)
+		PLAYER1_ANIMATION_TREE.set("parameters/Move/blend_position", input_vector)
+		PLAYER1_ANIMATION_TREE.set("parameters/Roll/blend_position", input_vector)
+		PLAYER1_ANIMATION_TREE.set("parameters/Attack/blend_position", input_vector)
+		PLAYER1_ANIMATION_TREE.set("parameters/Jump/blend_position", input_vector)
+		PLAYER1_ANIMATION_TREE.set("parameters/Sprint/blend_position", input_vector)
+		PLAYER1_ANIMATION_TREE.set("parameters/Slide/blend_position", input_vector)
+		PLAYER1_ANIMATION_STATE.travel("Move")
+		PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_MAX_SPEED, PLAYER1_ACCELERATION * delta)
+	else:
+		PLAYER1_ANIMATION_STATE.travel("Idle")
+		PLAYER1_VELOCITY  = PLAYER1_VELOCITY.move_toward(Vector2.ZERO, PLAYER1_SLOWDOWN * delta)
+	move ()
+	
+	#check if the Player is pressing anything while moving and enable ROLL, ATTACK, JUMP or SPRINT state
+	if Input.is_action_just_pressed("ui_roll"):
+		state = ROLL
+	
+	if Input.is_action_just_pressed("ui_cancel"):
+		state = ATTACK
+	
+	if Input.is_action_just_pressed("ui_jump"):
+		state = JUMP
+	
+	if Input.is_action_pressed("ui_r3") and input_vector != Vector2.ZERO:
+		state = SPRINT
+	
+	if Input.is_action_pressed("ui_l3") :
+		state = SPRINT
+	
+	
+#SPRINTING
+func sprint_state(delta):
+	
+	# controlling the direction of movement, delete this part to make animation not controllable and in a singular direction
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
 	
 	
-	#check if Player is moving or not moving
-	
+	# probably making the character move
 	if input_vector != Vector2.ZERO:
 		ACTION_VECTOR = input_vector
 		PLAYER1_ANIMATION_TREE.set("parameters/Idle/blend_position", input_vector)
 		PLAYER1_ANIMATION_TREE.set("parameters/Move/blend_position", input_vector)
-		PLAYER1_ANIMATION_TREE.set("parameters/Attack/blend_position", input_vector)
 		PLAYER1_ANIMATION_TREE.set("parameters/Roll/blend_position", input_vector)
-		PLAYER1_ANIMATION_STATE.travel("Move")
-		PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_MAX_SPEED, PLAYER1_ACCELERATION * delta)
+		PLAYER1_ANIMATION_TREE.set("parameters/Attack/blend_position", input_vector)
+		PLAYER1_ANIMATION_TREE.set("parameters/Jump/blend_position", input_vector)
+		PLAYER1_ANIMATION_TREE.set("parameters/Sprint/blend_position", input_vector)
+		PLAYER1_ANIMATION_TREE.set("parameters/Slide/blend_position", input_vector)
+		PLAYER1_ANIMATION_STATE.travel("Sprint")
+		PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_SPRINT_SPEED, PLAYER1_ACCELERATION * delta)
 	else:
-		PLAYER1_ANIMATION_STATE.travel("Idle")
-		PLAYER1_VELOCITY  = PLAYER1_VELOCITY.move_toward(Vector2.ZERO, PLAYER1_SLOWDOWN * delta)
-	
+		PLAYER1_ANIMATION_STATE.travel("Slide")
+		PLAYER1_VELOCITY  = PLAYER1_VELOCITY.move_toward(Vector2.ZERO, PLAYER1_SPRINT_SLOWDOWN * delta)
 	move ()
 	
 	
-	#check if the Player is pressing anything while moving
+	#check if the Player is pressing anything while sprinting and enable ROLL, ATTACK or MOVE state
+	if Input.is_action_just_pressed("ui_roll"):
+		state = SPRINT_ROLL
 	
-	if Input.is_action_just_pressed("ui_select"):
-		state = ROLL
+	if Input.is_action_just_pressed("ui_cancel"):
+		state = SPRINT_ATTACK
 	
-	if Input.is_action_just_pressed("ui_accept"):
-		state = ATTACK
+	if Input.is_action_just_pressed("ui_jump"):
+		state = SPRINT_JUMP
+	
+	if Input.is_action_just_released("ui_r3"):
+		state = SLIDE
+	
+	if Input.is_action_just_released("ui_l3"):
+		state = SLIDE
 	
 	
+#SLIDING
+func slide_state(delta):
+	# controlling the direction of movement
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
+
+	
+		# making the character move
+	PLAYER1_ANIMATION_STATE.travel("Slide")
+	PLAYER1_VELOCITY  = PLAYER1_VELOCITY.move_toward(Vector2.ZERO, PLAYER1_SPRINT_SLOWDOWN * delta)
+	move ()
+	
+	
+#ROLLING
 func roll_state(delta):
-	PLAYER1_VELOCITY = ACTION_VECTOR * PLAYER1_ROLL_SPEED
+	# controlling the direction of movement
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
+	
+	
+	# making the character move
 	PLAYER1_ANIMATION_STATE.travel("Roll")
+	PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_ROLL_SPEED, PLAYER1_ACCELERATION * delta)
 	move ()
 	
+	#check if Player is pressing anything while rolling and enable JUMP state on release
+	if Input.is_action_just_pressed("ui_jump"):
+		state = JUMP
+	
+	
+	
+#SPRINT ROLLING
+func sprint_roll_state(delta):
+	# controlling the direction of movement
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
+	
+	
+	# making the character move
+	PLAYER1_ANIMATION_STATE.travel("Roll")
+	PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_SPRINT_ROLL_SPEED, PLAYER1_ACCELERATION * delta)
+	move ()
+	
+	#check if Player is pressing anything while rolling and enable JUMP state on release
+	if Input.is_action_just_pressed("ui_jump"):
+		state = SPRINT_JUMP
+	
+	
+#ATTACKING
 func attack_state(delta):
+	# controlling the direction of movement
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
+	
+	
+	# making the character move
+
 	PLAYER1_ANIMATION_STATE.travel("Attack")
+	PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_ATTACK_SPEED, PLAYER1_ACCELERATION * delta)
 	move ()
 	
-func move():
-	PLAYER1_VELOCITY = move_and_slide(PLAYER1_VELOCITY)
+#SPRINT ATTACKING
+func sprint_attack_state(delta):
+	# controlling the direction of movement
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
 	
-# this function will be used for interacting with NPCs, game objects, chests etc.
-func interact_state():
-	# grabs all the bodies that are inside the PlayerDetection area
-	var bodies = $PlayerDetection.get_overlapping_bodies()
-	if bodies.size() != 0 and bodies.size() < 2: # only runs when there are only one body
-		print("Player detects a body!")
-		print(bodies)
-		if bodies[0] is NPC:
-			pass
-		
 	
+	# making the character move
+
+	PLAYER1_ANIMATION_STATE.travel("Attack")
+	PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_SPRINT_ATTACK_SPEED, PLAYER1_ACCELERATION * delta)
+	move ()
+	
+	
+	
+#JUMPING
+func jump_state(delta):
+	# controlling the direction of movement
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
+	
+	
+	# making the character move
+	PLAYER1_ANIMATION_STATE.travel("Jump")
+	PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_JUMP_FORCE, PLAYER1_ACCELERATION * delta)
+	move ()
+	
+#SPRINT JUMPING
+func sprint_jump_state(delta):
+	# controlling the direction of movement
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
+	
+	
+	# making the character move
+	PLAYER1_ANIMATION_STATE.travel("Jump")
+	PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_SPRINT_JUMP_FORCE, PLAYER1_ACCELERATION * delta)
+	move ()
+	
+	
+	
+	#ALLOW STATE CHANGE MID ANIMATION
+func jump_animation_allowchange():
+	#check if Player is pressing anything while jumping and enable ROLL or ATTACK state
+	if Input.is_action_pressed("ui_roll"):
+		state = SPRINT_ROLL
+	
+	if Input.is_action_pressed("ui_cancel"):
+		state = SPRINT_ATTACK
+
+	
+#END OF ANIMATION STATES
+# re-enable the MOVE state after the animation or other state  has finished
 func roll_animation_finished():
 	state = MOVE
 	
 func attack_animation_finished():
 	state = MOVE
 	
+func jump_animation_finished():
+	state = MOVE
+	
+func sprint_animation_finished():
+	state = SLIDE
+	
+func slide_animation_finished():
+	state = MOVE

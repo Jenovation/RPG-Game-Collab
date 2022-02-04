@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-
+#this creates the Hit animation or whatever is suposed to happen when the boxes collide
 func create_animation():
 	var HIT_ANIMATION = load("res://Animations/HitAnimation.tscn")
 	var PLAY = HIT_ANIMATION.instance()
