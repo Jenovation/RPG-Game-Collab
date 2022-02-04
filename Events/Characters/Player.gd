@@ -43,7 +43,14 @@ func _process(delta):
 	
 	
 	#check if the Player is pressing directional keys
-	
+
+# only gets called when this node receives an unhandle input events.
+func _unhandled_input(event):
+	# if the player clicks RMB means interact_state() is called
+	if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_RIGHT:
+		interact_state()
+
+
 func move_state(delta):
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -88,6 +95,14 @@ func attack_state(delta):
 	
 func move():
 	PLAYER1_VELOCITY = move_and_slide(PLAYER1_VELOCITY)
+	
+# this function will be used for interacting with NPCs, game objects, chests etc.
+func interact_state():
+	# grabs all the bodies that are inside the PlayerDetection area
+	var bodies = $PlayerDetection.get_overlapping_bodies()
+	if bodies.size() != 0:
+		print("Player detects a body!")
+		print(bodies)
 	
 func roll_animation_finished():
 	state = MOVE
