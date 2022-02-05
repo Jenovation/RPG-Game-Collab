@@ -1,23 +1,23 @@
 [gd_scene load_steps=46 format=2]
 
-[ext_resource path="res://Events/Plants/GreenCrystal.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Events/Characters/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Events/Plants/CoralTree.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Tilesets/Grass 01 48x48.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Purple Petal.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Rain Particle.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Rain Puddle.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/Smoke Particle.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/Fog Particle.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Rain Puddle.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Smoke Particle.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Fog Particle.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Rain Particle.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Purple Petal.png" type="Texture" id=9]
 [ext_resource path="res://Events/NPCs/NPC 1.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Events/NPCs/NPC 2.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Global Systems/Camera2D.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Global Systems/Camera2D.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Events/Characters/Player.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Events/Plants/GreenCrystal.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Events/Plants/CoralTree.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Events/NPCs/NPC 2.tscn" type="PackedScene" id=15]
 
 [sub_resource type="Gradient" id=22]
 offsets = PoolRealArray( 0, 0.106014, 0.140673, 0.268094, 0.334353, 0.529052, 0.630989, 0.704383, 0.788991 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.0541375, 1, 1, 1, 0, 1, 1, 1, 0.0858733, 1, 1, 1, 0.0927683, 1, 1, 1, 0.270588, 1, 1, 1, 0, 1, 1, 1, 0.223529, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=23]
+[sub_resource type="GradientTexture" id=34]
 gradient = SubResource( 22 )
 
 [sub_resource type="ParticlesMaterial" id=24]
@@ -33,7 +33,7 @@ orbit_velocity_random = 0.0
 linear_accel = 30.0
 damping = 21.82
 angle = 9.0
-color_ramp = SubResource( 23 )
+color_ramp = SubResource( 34 )
 
 [sub_resource type="CanvasItemMaterial" id=1]
 particles_animation = true
@@ -45,7 +45,7 @@ particles_anim_loop = true
 offsets = PoolRealArray( 0, 0.0984529, 0.16737, 0.261603, 0.333333, 0.437412, 0.561181, 0.864979, 0.998594 )
 colors = PoolColorArray( 1, 1, 1, 0.580392, 1, 1, 1, 0.12549, 0.886294, 0.927734, 0.926277, 0.227812, 0.945098, 0.964706, 0.964706, 0.733333, 1, 1, 1, 0.248276, 1, 1, 1, 0.331498, 1, 1, 1, 0.196078, 1, 1, 1, 0.40532, 1, 1, 1, 0.513726 )
 
-[sub_resource type="GradientTexture" id=3]
+[sub_resource type="GradientTexture" id=35]
 gradient = SubResource( 2 )
 
 [sub_resource type="ParticlesMaterial" id=4]
@@ -57,14 +57,14 @@ spread = 0.0
 gravity = Vector3( 0, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 35 )
 anim_speed = 43.55
 
 [sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0.0621814, 0.0978593, 0.16106, 0.299694, 0.442406 )
 colors = PoolColorArray( 0.232422, 0.232422, 0.232422, 0.0352941, 0.544922, 0.544922, 0.544922, 0.247059, 0.576172, 0.576172, 0.576172, 0.298039, 0.591797, 0.591797, 0.591797, 0.176471, 0.952941, 0.952941, 0.952941, 0 )
 
-[sub_resource type="GradientTexture" id=6]
+[sub_resource type="GradientTexture" id=36]
 gradient = SubResource( 5 )
 width = 1024
 
@@ -73,7 +73,7 @@ min_value = 0.2
 max_value = 5.0
 _data = [ Vector2( 0, 0.326131 ), 0.0, -0.278103, 0, 0, Vector2( 0.769489, 5 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=8]
+[sub_resource type="CurveTexture" id=37]
 curve = SubResource( 7 )
 
 [sub_resource type="ParticlesMaterial" id=9]
@@ -86,14 +86,14 @@ tangential_accel = 31.41
 tangential_accel_random = 1.0
 scale = 0.01
 scale_random = 1.0
-scale_curve = SubResource( 8 )
-color_ramp = SubResource( 6 )
+scale_curve = SubResource( 37 )
+color_ramp = SubResource( 36 )
 
 [sub_resource type="Gradient" id=10]
 offsets = PoolRealArray( 0.00611621, 0.0458716, 0.0988787, 0.16106, 0.299694, 0.442406 )
 colors = PoolColorArray( 0.0980392, 0.0980392, 0.0980392, 0, 1, 1, 1, 0.172549, 0.952941, 0.952941, 0.952941, 0.176471, 0.945098, 0.945098, 0.945098, 0.211765, 0.945098, 0.945098, 0.945098, 0.129412, 0.952941, 0.952941, 0.952941, 0 )
 
-[sub_resource type="GradientTexture" id=11]
+[sub_resource type="GradientTexture" id=38]
 gradient = SubResource( 10 )
 width = 1024
 
@@ -112,8 +112,8 @@ tangential_accel_random = 1.0
 damping = 15.0
 scale = 0.01
 scale_random = 1.0
-scale_curve = SubResource( 8 )
-color_ramp = SubResource( 11 )
+scale_curve = SubResource( 37 )
+color_ramp = SubResource( 38 )
 hue_variation = 0.37
 
 [sub_resource type="ParticlesMaterial" id=12]
@@ -128,14 +128,14 @@ tangential_accel = 31.41
 tangential_accel_random = 1.0
 scale = 0.01
 scale_random = 1.0
-scale_curve = SubResource( 8 )
-color_ramp = SubResource( 11 )
+scale_curve = SubResource( 37 )
+color_ramp = SubResource( 38 )
 
 [sub_resource type="Gradient" id=14]
 offsets = PoolRealArray( 0.0621814, 0.0988787, 0.16106, 0.311927, 0.442406 )
 colors = PoolColorArray( 0.154297, 0.154297, 0.154297, 0.0352941, 0.388672, 0.388672, 0.388672, 0.247059, 0.486328, 0.486328, 0.486328, 0.298039, 0.611328, 0.611328, 0.611328, 0.176471, 0.952941, 0.952941, 0.952941, 0 )
 
-[sub_resource type="GradientTexture" id=15]
+[sub_resource type="GradientTexture" id=39]
 gradient = SubResource( 14 )
 width = 1024
 
@@ -149,8 +149,8 @@ tangential_accel = 31.41
 tangential_accel_random = 1.0
 scale = 1.85
 scale_random = 1.0
-scale_curve = SubResource( 8 )
-color_ramp = SubResource( 15 )
+scale_curve = SubResource( 37 )
+color_ramp = SubResource( 39 )
 
 [sub_resource type="ParticlesMaterial" id=17]
 emission_shape = 2
@@ -174,7 +174,7 @@ blend_mode = 1
 offsets = PoolRealArray( 0.0506329, 0.160338, 0.219409, 0.243319, 0.261603, 0.317862, 0.345992, 0.383966, 0.479606, 0.493671, 0.518987, 0.530239, 0.540084, 0.62166, 0.646976, 0.663854, 0.696203, 0.721519, 0.738397, 0.769339, 0.814346, 0.886076, 0.994374 )
 colors = PoolColorArray( 0.892578, 0.137617, 0.137617, 1, 0.913725, 0.223529, 0.137255, 0, 0.927932, 0.272381, 0.134531, 1, 0.954674, 0.374319, 0.132198, 1, 0.960784, 0.396078, 0.133333, 0, 0.978697, 0.46589, 0.130101, 1, 0.988235, 0.501961, 0.129412, 0.337255, 1, 0.547095, 0.128242, 1, 1, 0.605863, 0.17425, 1, 1, 0.611765, 0.180392, 0.105882, 0.939453, 0.362971, 0.150258, 1, 1, 0.631373, 0.192157, 0.121569, 1, 0.637743, 0.199209, 1, 1, 0.692688, 0.242224, 1, 1, 0.733333, 0.27451, 0.176471, 1, 0.767961, 0.301153, 1, 0.978516, 0.450633, 0.0465288, 1, 1, 0.651961, 0.270568, 1, 1, 0.619608, 0.262745, 0, 1, 0.561185, 0.246635, 1, 1, 0.47451, 0.223529, 0, 1, 0.411672, 0.207215, 1, 1, 0.134006, 0.134006, 1 )
 
-[sub_resource type="GradientTexture" id=20]
+[sub_resource type="GradientTexture" id=40]
 gradient = SubResource( 19 )
 
 [sub_resource type="ParticlesMaterial" id=21]
@@ -199,13 +199,13 @@ angle = 108.5
 angle_random = 0.54
 scale = 1.5
 scale_random = 1.0
-color_ramp = SubResource( 20 )
+color_ramp = SubResource( 40 )
 
 [sub_resource type="Gradient" id=25]
 offsets = PoolRealArray( 0.0112518, 0.23488, 0.818565 )
 colors = PoolColorArray( 1, 1, 1, 0.780392, 1, 1, 1, 1, 0.152941, 0.698039, 0.901961, 0.596078 )
 
-[sub_resource type="GradientTexture" id=26]
+[sub_resource type="GradientTexture" id=41]
 gradient = SubResource( 25 )
 
 [sub_resource type="ParticlesMaterial" id=27]
@@ -218,7 +218,7 @@ orbit_velocity = 0.05
 orbit_velocity_random = 0.0
 scale = 2.0
 scale_random = 1.0
-color_ramp = SubResource( 26 )
+color_ramp = SubResource( 41 )
 
 [sub_resource type="CanvasItemMaterial" id=28]
 
@@ -226,7 +226,7 @@ color_ramp = SubResource( 26 )
 offsets = PoolRealArray( 0.0030581, 0.246687, 0.878695 )
 colors = PoolColorArray( 0.784314, 0.784314, 0.788235, 0, 0.627367, 0.744631, 0.826172, 0.223529, 0.993734, 0.992391, 0.988736, 0.0146953 )
 
-[sub_resource type="GradientTexture" id=30]
+[sub_resource type="GradientTexture" id=42]
 gradient = SubResource( 29 )
 
 [sub_resource type="ParticlesMaterial" id=31]
@@ -242,7 +242,7 @@ orbit_velocity_random = 0.0
 linear_accel = 1.15
 scale = 3.0
 scale_random = 1.0
-color_ramp = SubResource( 30 )
+color_ramp = SubResource( 42 )
 
 [sub_resource type="CanvasItemMaterial" id=33]
 blend_mode = 1
@@ -263,99 +263,90 @@ scale_random = 1.0
 color = Color( 0.298039, 0.101961, 0.101961, 1 )
 hue_variation = 0.14
 
-[node name="Test Level" type="Node2D"]
-position = Vector2( 72, 65 )
+[node name="Grass Level" type="Node2D"]
 
 [node name="Grass BG" type="Sprite" parent="."]
 texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 1280, 720 )
-__meta__ = {
-"_edit_lock_": true
-}
 
-[node name="Camera2D" parent="." instance=ExtResource( 12 )]
+[node name="Camera2D" parent="." instance=ExtResource( 11 )]
 position = Vector2( 616, 387 )
 
-[node name="TopLeft" parent="Camera2D/Limits" index="0"]
-position = Vector2( 72, 64 )
-
 [node name="BottomRight" parent="Camera2D/Limits" index="1"]
-position = Vector2( 1352, 784 )
+position = Vector2( 1280, 720 )
 
 [node name="YSort Sprites" type="YSort" parent="."]
-__meta__ = {
-"_edit_lock_": true
-}
 
-[node name="Player" parent="YSort Sprites" instance=ExtResource( 2 )]
+[node name="Player" parent="YSort Sprites" instance=ExtResource( 12 )]
 position = Vector2( 613, 387 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="YSort Sprites/Player"]
+visible = false
 position = Vector2( 3, 0 )
 remote_path = NodePath("../../../Camera2D")
 
 [node name="NPC 1" parent="YSort Sprites" instance=ExtResource( 10 )]
 position = Vector2( 95, 285 )
 
-[node name="NPC 2" parent="YSort Sprites" instance=ExtResource( 11 )]
+[node name="NPC 2" parent="YSort Sprites" instance=ExtResource( 15 )]
 position = Vector2( 402, 257 )
 
-[node name="Green Crystal" parent="YSort Sprites" instance=ExtResource( 1 )]
-position = Vector2( 64, 119 )
+[node name="Green Crystals" type="YSort" parent="YSort Sprites"]
+position = Vector2( 186, 112 )
 
-[node name="Sprite" parent="YSort Sprites/Green Crystal" index="0"]
-position = Vector2( -16, -64 )
-scale = Vector2( 1, 1.02564 )
+[node name="Green Crystal" parent="YSort Sprites/Green Crystals" instance=ExtResource( 13 )]
+position = Vector2( -125, -49 )
 
-[node name="CollisionShape2D" parent="YSort Sprites/Green Crystal" index="1"]
-position = Vector2( -7.62939e-06, -8 )
-
-[node name="Green Crystal2" parent="YSort Sprites" instance=ExtResource( 1 )]
-position = Vector2( 176, 95 )
-
-[node name="Sprite" parent="YSort Sprites/Green Crystal2" index="0"]
-position = Vector2( -24, -48 )
-
-[node name="CollisionShape2D" parent="YSort Sprites/Green Crystal2" index="1"]
-position = Vector2( -24, -24 )
+[node name="Green Crystal2" parent="YSort Sprites/Green Crystals" instance=ExtResource( 13 )]
+position = Vector2( -40, -52 )
 
 [node name="Coral Trees" type="YSort" parent="YSort Sprites"]
 position = Vector2( 744, 279 )
 scale = Vector2( 1.00137, 1 )
 
-[node name="Coral Tree" parent="YSort Sprites/Coral Trees" instance=ExtResource( 3 )]
+[node name="Coral Tree" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
 position = Vector2( 496.303, 232.955 )
 rotation = -0.0942478
 
-[node name="Coral Tree2" parent="YSort Sprites/Coral Trees" instance=ExtResource( 3 )]
+[node name="Coral Tree2" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
 position = Vector2( 7.9891, 290 )
 scale = Vector2( 0.998632, 1 )
 
-[node name="Coral Tree3" parent="YSort Sprites/Coral Trees" instance=ExtResource( 3 )]
+[node name="Coral Tree3" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
 position = Vector2( 411.436, 315 )
 scale = Vector2( 0.998632, 1 )
 
-[node name="Coral Tree4" parent="YSort Sprites/Coral Trees" instance=ExtResource( 3 )]
+[node name="Coral Tree4" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
 position = Vector2( 380.479, 6 )
 scale = Vector2( 0.998632, 1 )
 
-[node name="Coral Tree5" parent="YSort Sprites/Coral Trees" instance=ExtResource( 3 )]
+[node name="Coral Tree5" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
 position = Vector2( -46.9357, -46 )
 scale = Vector2( 0.998632, 1 )
 
-[node name="Coral Tree6" parent="YSort Sprites/Coral Trees" instance=ExtResource( 3 )]
+[node name="Coral Tree6" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
 position = Vector2( 30.9576, -5 )
 scale = Vector2( 0.998632, 1 )
 
-[node name="Coral Tree7" parent="YSort Sprites/Coral Trees" instance=ExtResource( 3 )]
+[node name="Coral Tree7" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
 position = Vector2( 147.798, 57 )
 scale = Vector2( 0.998632, 1 )
 
-[node name="Coral Tree8" parent="YSort Sprites/Coral Trees" instance=ExtResource( 3 )]
+[node name="Coral Tree9" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
+position = Vector2( 248.659, 365 )
+scale = Vector2( 0.998632, 1 )
+
+[node name="Coral Tree8" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
 position = Vector2( 73.8987, -100 )
 scale = Vector2( 0.998632, 1 )
+
+[node name="Coral Tree10" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
+position = Vector2( -569.22, 354 )
+
+[node name="Coral Tree11" parent="YSort Sprites/Coral Trees" instance=ExtResource( 14 )]
+position = Vector2( -500.315, 383 )
 
 [node name="Particle Systems" type="Node2D" parent="."]
 position = Vector2( 616, 327 )
@@ -367,7 +358,7 @@ amount = 1000
 lifetime = 4.0
 speed_scale = 1.3
 process_material = SubResource( 24 )
-texture = ExtResource( 6 )
+texture = ExtResource( 8 )
 
 [node name="Rain Puddles" type="Particles2D" parent="Particle Systems"]
 visible = false
@@ -377,7 +368,7 @@ amount = 1000
 lifetime = 15.0
 speed_scale = 0.4
 process_material = SubResource( 4 )
-texture = ExtResource( 7 )
+texture = ExtResource( 5 )
 
 [node name="Campfire Smoke" type="Particles2D" parent="Particle Systems"]
 visible = false
@@ -387,7 +378,7 @@ amount = 100
 lifetime = 10.0
 speed_scale = 0.6
 process_material = SubResource( 9 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 
 [node name="Acid Steam" type="Particles2D" parent="Particle Systems"]
 visible = false
@@ -397,7 +388,7 @@ amount = 100
 lifetime = 10.0
 speed_scale = 0.6
 process_material = SubResource( 13 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 
 [node name="Steam Plume" type="Particles2D" parent="Particle Systems"]
 visible = false
@@ -407,7 +398,7 @@ amount = 100
 lifetime = 10.0
 speed_scale = 0.6
 process_material = SubResource( 12 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 
 [node name="Smoke Plume" type="Particles2D" parent="Particle Systems"]
 visible = false
@@ -416,7 +407,7 @@ amount = 160
 lifetime = 10.0
 speed_scale = 0.6
 process_material = SubResource( 16 )
-texture = ExtResource( 8 )
+texture = ExtResource( 6 )
 
 [node name="Purple Petals" type="Particles2D" parent="Particle Systems"]
 visible = false
@@ -424,7 +415,7 @@ position = Vector2( -64, 64 )
 amount = 30
 lifetime = 20.0
 process_material = SubResource( 17 )
-texture = ExtResource( 5 )
+texture = ExtResource( 9 )
 
 [node name="Embers" type="Particles2D" parent="Particle Systems"]
 visible = false
@@ -452,7 +443,7 @@ amount = 150
 lifetime = 10.0
 speed_scale = 0.5
 process_material = SubResource( 31 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 
 [node name="Mist2" type="Particles2D" parent="Particle Systems"]
 visible = false
@@ -462,8 +453,6 @@ amount = 150
 lifetime = 10.0
 speed_scale = 0.5
 process_material = SubResource( 32 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 
 [editable path="Camera2D"]
-[editable path="YSort Sprites/Green Crystal"]
-[editable path="YSort Sprites/Green Crystal2"]

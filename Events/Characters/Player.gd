@@ -8,12 +8,13 @@ var PLAYER1_SPRINT_SPEED = 220
 var PLAYER1_ROLL_SPEED = 180
 var PLAYER1_SPRINT_ROLL_SPEED = 255
 var PLAYER1_JUMP_FORCE = 180
-var PLAYER1_SPRINT_JUMP_FORCE = 275
+var PLAYER1_SPRINT_JUMP_FORCE = 280
+var PLAYER1_SUPER_JUMP_FORCE = 420
 var PLAYER1_GRAVITY = 0
 var PLAYER1_ATTACK_SPEED = 100
 var PLAYER1_SPRINT_ATTACK_SPEED = 180
 var PLAYER1_SLOWDOWN = 1000
-var PLAYER1_SPRINT_SLOWDOWN = 300
+var PLAYER1_SPRINT_SLOWDOWN = 400
 # PLAYER1_ACCELERATION = 1500    PLAYER1_MAX_SPEED = 100-200    PLAYER1_SLOWDOWN = 1500-2000 Range     PLAYER1_RUN_SLOWDOWN 300-500 Range
 
 enum {
@@ -24,6 +25,7 @@ enum {
 	SPRINT_ATTACK,
 	JUMP,
 	SPRINT_JUMP,
+	SUPER_JUMP,
 	SPRINT,
 	SLIDE
 
@@ -63,6 +65,9 @@ func _process(delta):
 		
 		SPRINT_JUMP:
 			sprint_jump_state(delta)
+		
+		SUPER_JUMP:
+			super_jump_state(delta)
 		
 		SPRINT:
 			sprint_state(delta)
@@ -219,7 +224,7 @@ func sprint_roll_state(delta):
 	
 	#check if Player is pressing anything while rolling and enable JUMP state on release
 	if Input.is_action_just_pressed("ui_jump"):
-		state = SPRINT_JUMP
+		state = SUPER_JUMP
 	
 	
 #ATTACKING
@@ -282,6 +287,20 @@ func sprint_jump_state(delta):
 	PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_SPRINT_JUMP_FORCE, PLAYER1_ACCELERATION * delta)
 	move ()
 	
+	
+#SUPER JUMPING
+func super_jump_state(delta):
+	# controlling the direction of movement
+	var input_vector = Vector2.ZERO
+	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = input_vector.normalized()
+	
+	
+	# making the character move
+	PLAYER1_ANIMATION_STATE.travel("Jump")
+	PLAYER1_VELOCITY = PLAYER1_VELOCITY.move_toward(input_vector * PLAYER1_SUPER_JUMP_FORCE, PLAYER1_ACCELERATION * delta)
+	move ()
 	
 	
 	#ALLOW STATE CHANGE MID ANIMATION

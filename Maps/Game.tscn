@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Maps/Grass Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Maps/Desert Level.tscn" type="PackedScene" id=2]
+
+[node name="Game" type="Node2D"]
+
+[node name="Grass Level" parent="." instance=ExtResource( 1 )]
+visible = false
+
+[node name="Desert Level" parent="." instance=ExtResource( 2 )]

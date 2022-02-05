@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Tilesets/Sand 01 48x48.png" type="Texture" id=1]
+[ext_resource path="res://Events/Characters/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Global Systems/Camera2D.tscn" type="PackedScene" id=3]
+
+[node name="Desert Level" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 616, 391 )
+scale = Vector2( 0.960178, 1.0875 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 1280, 720 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Camera2D" parent="." instance=ExtResource( 3 )]
+position = Vector2( 613, 387 )
+
+[node name="BottomRight" parent="Camera2D/Limits" index="1"]
+position = Vector2( 1231, 783 )
+
+[node name="YSort Sprites" type="YSort" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Player" parent="YSort Sprites" instance=ExtResource( 2 )]
+position = Vector2( 613, 387 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="YSort Sprites/Player"]
+remote_path = NodePath("../../../Camera2D")
+
+[editable path="Camera2D"]
